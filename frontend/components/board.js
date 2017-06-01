@@ -7,7 +7,7 @@ class Board extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      data: Array(10).fill().map(()=> Array(10).fill()),
+      data: Array(8).fill().map(()=> Array(20).fill()),
       bird: new Bird({pos: [4,4], velocity: [0, -3]}),
       pipes: [],
       pipeInterval: 2
@@ -71,9 +71,11 @@ class Board extends React.Component{
 
   renderBoard(){
     return this.state.data.map((col, colNum) => (
-      col.map((el, rowNum) => (
-        <div className="board-tile" key={"row" + rowNum + "col" + colNum}>{ el }</div>
-      ))
+      <div className="board-row" key={colNum}>
+        { col.map((el, rowNum) => (
+          <div className="board-tile" key={"row" + rowNum + "col" + colNum}>{ el }</div>
+        )) }
+      </div>
     ))
   }
 

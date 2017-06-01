@@ -4,8 +4,11 @@ import Board from './board';
 class Game extends React.Component{
   constructor(props){
     super(props);
-    this.setup();
+    this.state = {
+      board: <Board />
+    }
     this.won = this.won.bind(this);
+    this.setup = this.setup.bind(this);
   }
 
   setup(){
@@ -14,6 +17,10 @@ class Game extends React.Component{
 
   won(){
     // clearInterval(this.interval);
+  }
+
+  componentDidMount(){
+    this.setup();
   }
 
   componentWillUpdate(){
@@ -28,7 +35,7 @@ class Game extends React.Component{
   }
 
   render(){
-    return (<Board />)
+    return <div> {this.state.board} </div>
   }
 
 }
