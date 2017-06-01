@@ -6,11 +6,6 @@ class Pipe extends MovingObject{
     this.length = options.length;
     this.direction = options.direction;
     this.positions = [];
-    this.setup();
-  }
-
-  setup(){
-
   }
 
 }

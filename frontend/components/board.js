@@ -32,7 +32,6 @@ class Board extends React.Component{
       }
       rows += 1;
     }
-    debugger
     this.setState({data: data}, () => {
       this.insertNewPipes();
       this.updateBoard();

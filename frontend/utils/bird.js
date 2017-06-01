@@ -7,6 +7,16 @@ class Bird extends MovingObject{
     this.velocity = options.velocity;
   }
 
+  flap(){
+    console.log(this.velocity);
+    this.velocity[1] = 3;
+    console.log(this.velocity);
+  }
+
+  descend(){
+    this.velocity[1] -= 1;
+  }
+
   collideWith(otherObject){
     if(collision(otherObject, this)){
       // you lose, reset
