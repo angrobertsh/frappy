@@ -1,53 +1,79 @@
-import Bird from './bird';
-import Pipe from './pipe';
+import React from 'react';
+import Bird from '../utils/bird';
+import Pipe from '../utils/pipe';
 import merge from 'lodash/merge';
 
 class Board extends React.Component{
-  constructor(){
-    this.board = []
-    this.bird = new Bird({pos: [4,4], velocity: [0, -3]});
-    this.pipes = [];
-    this.pipeInterval = 2;
-    this.setup = this.setup.bind(this);
-    this.setup();
+  constructor(props){
+    super(props);
+    this.state = {
+      data: Array(10).fill().map(()=> Array(10).fill()),
+      bird: new Bird({pos: [4,4], velocity: [0, -3]}),
+      pipes: [],
+      pipeInterval: 2
+    }
     this.renderBoard = this.renderBoard.bind(this);
+    this.updateBoard = this.updateBoard.bind(this);
+    this.setup = this.setup.bind(this);
+  }
+
+  componentDidMount(){
+    this.setup();
   }
 
   setup(){
+    let data = merge([], this.state.data);
+    let rows = 0;
+    while(rows < this.state.data.length){
+      let cols = 0;
+      while(cols < this.state.data[0].length){
+        data[rows][cols] = "_nothing_";
+        cols += 1;
+      }
+      rows += 1;
+    }
+    debugger
+    this.setState({data: data}, () => {
+      this.insertNewPipes();
+      this.updateBoard();
+    })
+
     // set board state and bird and pipes
   }
 
   step(){
-    this.bird.move();
-    this.pipes.forEach((pipe) => {pipe.move()});
+    this.state.bird.move();
+    this.state.pipes.forEach((pipe) => {pipe.move()});
     insertNewPipes();
     updateBoard();
   }
 
   updateBoard(){
-    let board = merge({}, this.props.board);
+    let board = merge([], this.state.data);
 
-    this.bird.positions.forEach((pos) => {
-      // something else not bird
-      this.props.board[[pos[0]], [pos[1]]] = "bird!";
-    });
-    this.pipes.forEach((pipe) => {
+    const birdPos = this.state.bird.pos
+    board[birdPos[0]][birdPos[1]] = "bird!";
+
+    this.state.pipes.forEach((pipe) => {
       pipe.positions.forEach((pos) => {
         // something else not pipe
-        this.props.board[[pos[0]], [pos[1]]] = "pipe!";
+        board[pos[0]][pos[1]] = "pipe!";
       })
     })
 
+    this.setState({data: board});
     // this.props.updateBoard(board)
   }
 
   insertNewPipes(){
-    // something based on this.interval
+    // something based on this.props.interval
   }
 
   renderBoard(){
-    return this.board.map((boardEl) => (
-      <div className="board-tile">{ BoardEl }</div>
+    return this.state.data.map((col, colNum) => (
+      col.map((el, rowNum) => (
+        <div className="board-tile" key={"row" + rowNum + "col" + colNum}>{ el }</div>
+      ))
     ))
   }
 

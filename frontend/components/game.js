@@ -1,21 +1,34 @@
+import React from 'react';
 import Board from './board';
 
 class Game extends React.Component{
-  constructor(){
-    this.board = new Board();
+  constructor(props){
+    super(props);
     this.setup();
+    this.won = this.won.bind(this);
   }
 
   setup(){
     // win condition?
   }
 
+  won(){
+    // clearInterval(this.interval);
+  }
+
+  componentWillUpdate(){
+
+  }
+
+  componentDidUpdate(){
+  }
+
   run(){
-    board.step();
+    this.interval = setInterval(board.step(), 1000);
   }
 
   render(){
-    return (<Board board={this.props.board} updateBoard={this.props.updateBoard}/>)
+    return (<Board />)
   }
 
 }
